@@ -6,7 +6,7 @@
 package sv.edu.udb.Data.modelos;
 
 /**
- *
+ * Cambio prueba
  * @author Douglas
  */
 public class Libro extends Item {
