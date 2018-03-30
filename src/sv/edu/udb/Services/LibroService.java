@@ -13,22 +13,17 @@ import sv.edu.udb.Data.modelos.Libro;
  * Servicio que sirve para todo el manejo de libros
  * @author Douglas
  */
-public class LibroService {
-    Conexion conexion = null;
-    
+public class LibroService extends ServiceBase {
+        
     public LibroService(){
-        try
-        {
-            conexion = new Conexion();
-        }
-        catch(SQLException e){
-            System.out.println("ERROR:No se pudo construir el objeto de conexion:" + e.getMessage());
-        }
+        super();
     }
     
     /**
      * Inserta un libro en base al objeto libro enviado, regresa el ID del codigo 
      * del libro despues de ser insertado en la base
+     * @param libro Objeto libro para ser insertado
+     * @return El codigo del libro insertado
      */
     public long insertarLibro(Libro libro){
         

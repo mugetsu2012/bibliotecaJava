@@ -6,6 +6,7 @@
 package bibliotecaprimerafase;
 
 import sv.edu.udb.Data.modelos.Categoria;
+import sv.edu.udb.Data.modelos.Estante;
 import sv.edu.udb.Data.modelos.Libro;
 import sv.edu.udb.Services.CatalogosService;
 
@@ -38,6 +39,11 @@ public class BibliotecaPrimeraFase {
         
         long primerCodigo = catalogosService.insertarCategoria(categoriaPrimera);
         long segundaCategoria = catalogosService.insertarCategoria(categoriaSegunda);
+        
+        Estante estante = new Estante();
+        estante.nombre = "Estante A";
+        estante.descripcion = "Estante Codigo A, segundo a la izquierda";
+        long codigoEstante = catalogosService.insertarEstante(estante);
     }
     
 }
