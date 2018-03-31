@@ -6,7 +6,6 @@
 package bibliotecaprimerafase;
 
 import java.util.List;
-import sv.edu.udb.Data.modelos.Autor;
 import sv.edu.udb.Data.modelos.Categoria;
 import sv.edu.udb.Data.modelos.Estante;
 import sv.edu.udb.Data.modelos.Libro;

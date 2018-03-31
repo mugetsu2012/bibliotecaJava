@@ -127,4 +127,21 @@ public class AdminService extends ServiceBase {
         return usuarios;
         
     }
+    
+    public boolean loginValido(String carne, String password){
+        Usuario user = getUsuario(carne);
+        
+        //El usuario no existe
+        if(user == null){
+            return false;
+        }
+        
+        //Si la password no coinciden
+        if(!user.passWord.equals(password)){
+            return false;
+        }
+        
+        return true;
+    }
+
 }

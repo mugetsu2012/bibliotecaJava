@@ -8,7 +8,6 @@ package sv.edu.udb.Services;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import sv.edu.udb.Data.Conexion;
-import sv.edu.udb.Data.modelos.Autor;
 import sv.edu.udb.Data.modelos.Libro;
 
 /**
@@ -40,47 +39,23 @@ public class ItemsService extends ServiceBase {
         long codigoLibro = conexion.realizarInsert(querySql);
         
         return codigoLibro;
-    }
+    }    
     
-    public void asignarLibroAutor(long codigoLibro, long codigoAutor){
+    public void editarLibro(Libro libro){
         
-        String query = "select * from libro_autor where id_autor = "+codigoAutor+" and id_libro = "+codigoLibro+"";
+        String querySql = "update item\n" +
+            "set id_categoria = "+libro.id_categoria+",id_estante = "+libro.id_estante+", nombre = '"+libro.nombre+"', "
+                + "descripcion = '"+libro.descripcion+"', unidades_para_prestar = "+libro.unidades_para_prestar+"\n" +
+            "where id_item = "+libro.id_item+"";
         
-        ResultSet rs = conexion.RealizarQuery(query);
+        conexion.ejecutarQuery(querySql);
         
-        //Chequear que previamente el libro no tenga a ese autor\
-        try{
-            if(!rs.isBeforeFirst()){
-                //Solo si no hay data hacemos el insert
-                query = "insert into libro_autor(id_autor, id_libro) values("+codigoAutor+","+codigoLibro+")";
-                conexion.ejecutarQuery(query);                
-            }
-        }catch(SQLException e){
-            
-            System.out.println("Error: " + e.getMessage());
-        }
+        querySql = "update libro\n" +
+            "set nota = '"+libro.nota+"', edicion = '"+libro.edicion+"',fecha_publicacion = '"+libro.fecha_publicacion+"',"
+                + "lugar_publicacion = '"+libro.lugar_publicacion+"', isbn = '"+libro.isbn+"'\n" +
+            "where id_libro = "+libro.id_libro+"";
         
-    }
-    
-    public void removerAutorLibro(long codigoLibro, long codigoAutor){
-        String query = "delete from libro_autor where id_autor = "+codigoAutor+" and id_libro = "+codigoLibro+"";
-        conexion.ejecutarQuery(query);
-    }
-    
-    public long insertarAutor(Autor autor){
-        
-        String query = "INSERT INTO autor(nombre) values('"+autor.nombre+"')";
-        
-        long code = conexion.realizarInsert(query);
-        
-        return code;
-    }
-    
-    public void editarAutor(Autor autor){
-        
-        String query = "UPDATE autor set nombre='"+autor.nombre+"' where id_autor = "+autor.codigo+"";
-        
-        conexion.ejecutarQuery(query);
+        conexion.ejecutarQuery(querySql);    
         
     }
 }
