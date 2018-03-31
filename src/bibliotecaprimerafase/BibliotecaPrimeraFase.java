@@ -28,7 +28,7 @@ public class BibliotecaPrimeraFase {
         
         //Prueba de insercion de categorias
         Categoria categoriaPrimera = new Categoria(){};
-        categoriaPrimera.nombre = "Cienas naturales";
+        categoriaPrimera.nombre = "Ciencias naturales";
         categoriaPrimera.descripcion = "Categorias de las Ciencas Naturales en basica";
         
         Categoria categoriaSegunda = new Categoria();
