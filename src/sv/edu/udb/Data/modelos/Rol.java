@@ -9,25 +9,20 @@ package sv.edu.udb.Data.modelos;
  *
  * @author Douglas
  */
-public class Usuario {
-    public String id_carne;
+public class Rol {
     public long id_catalogo_roles;
-    public String passWord;
-    public int estado;
-    
-    public String getId_carne(){
-        return id_carne;
-    }
+    public String rol;
+    public String descripcion;
     
     public long getId_catalogo_roles(){
         return id_catalogo_roles;
     }
     
-    public String getPassWord(){
-        return passWord;
+    public String getRol(){
+        return rol;
     }
     
-    public int getEstado(){
-        return estado;
+    public String getDescripcion(){
+        return descripcion;
     }
 }

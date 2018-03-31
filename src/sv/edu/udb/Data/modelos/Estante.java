@@ -12,6 +12,7 @@ package sv.edu.udb.Data.modelos;
 public class Estante {
     public long codigo;
     public String nombre;
+    public String seccion;
     public String descripcion;
     
     public long getCodigo(){
@@ -24,5 +25,9 @@ public class Estante {
     
     public String getDescripcion(){
         return descripcion;
+    }
+    
+    public String getSeccion(){
+        return seccion;
     }
 }

@@ -5,7 +5,10 @@
  */
 package sv.edu.udb.Services;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import sv.edu.udb.Data.Conexion;
 import sv.edu.udb.Data.modelos.Categoria;
 import sv.edu.udb.Data.modelos.Estante;
@@ -44,9 +47,38 @@ public class CatalogosService extends ServiceBase {
     }
     
     public long insertarEstante(Estante estante){
-        String querySql ="INSERT INTO estante(nombre_estante, descripcion) values ('"+estante.nombre+"','"+estante.descripcion+"')";
+        String querySql ="INSERT INTO estante(estante,seccion, descripcion) values ('"+estante.nombre+"','"+estante.seccion+"','"+estante.descripcion+"')";
         long codigoEstante = conexion.realizarInsert(querySql);
         return codigoEstante;
+    }
+    
+    public void editarEstante(Estante estante){
+        
+        String query = "update estante set estante = '"+estante.nombre+"', seccion = '"+estante.seccion+"',"
+                + " descripcion = '"+estante.descripcion+"' where id_estante = "+estante.codigo+"";
+        conexion.ejecutarQuery(query);
+    }
+    
+    public List<Estante> getEstantes(){
+        List<Estante> estantes = new ArrayList<Estante>();
+        
+        String query = "select * from estante";
+        ResultSet rs = conexion.RealizarQuery(query);
+        
+        try{
+            while(rs.next()){
+                Estante estante = new Estante();
+                estante.codigo = rs.getLong("id_estante");
+                estante.nombre = rs.getString("estante");
+                estante.seccion = rs.getString("seccion");
+                estante.descripcion = rs.getString("descripcion");
+                estantes.add(estante);
+            }
+        } catch(SQLException e){
+            System.out.println("Error: " + e.getMessage());
+        }
+        
+        return estantes;
     }
     
     /**

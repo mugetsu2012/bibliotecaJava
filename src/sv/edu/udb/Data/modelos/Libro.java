@@ -10,11 +10,13 @@ package sv.edu.udb.Data.modelos;
  * @author Douglas
  */
 public class Libro extends Item {
-    public long id_libro;
+    public long id_libro;    
     public String nota;
     public String edicion;
     public String fecha_publicacion;
     public String lugar_publicacion;   
+    public String nombreAutor;
+    public String isbn;
     
     public String getEdicion(){
         return edicion;
@@ -34,5 +36,13 @@ public class Libro extends Item {
     
     public long getId_libro(){
         return id_libro;
+    }
+         
+    public String getNombreAutor(){
+        return nombreAutor;
+    }
+    
+    public String getIsbn(){
+        return isbn;
     }
 }

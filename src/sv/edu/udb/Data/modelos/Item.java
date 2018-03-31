@@ -12,11 +12,11 @@ package sv.edu.udb.Data.modelos;
 public class Item {
     public long id_item;    
     public long id_categoria;
-    public long id_estante;
-    public long id_autor;
+    public long id_estante;   
     public String nombre;   
     public String descripcion;
-    public String nombreAutor;
+    public int unidades_para_prestar;
+    
     
     public long getId_item(){
         return id_item;
@@ -24,11 +24,7 @@ public class Item {
     
     public long getId_estante(){
         return id_estante;
-    }
-    
-    public long getId_autor(){
-        return id_autor;
-    }
+    }  
     
     public long getId_categoria(){
         return id_categoria;
@@ -40,9 +36,9 @@ public class Item {
     
     public String getDescripcion(){
         return descripcion;
-    }
+    }   
     
-    public String getNombreAutor(){
-        return nombreAutor;
+    public int getUnidades_para_prestar(){
+        return unidades_para_prestar;
     }
 }
