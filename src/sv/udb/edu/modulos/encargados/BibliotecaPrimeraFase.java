@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bibliotecaprimerafase;
+package sv.udb.edu.modulos.encargados;
 
 import sv.edu.udb.Data.modelos.Categoria;
 import sv.edu.udb.Data.modelos.Libro;
