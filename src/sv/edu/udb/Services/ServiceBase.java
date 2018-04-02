@@ -6,6 +6,9 @@
 package sv.edu.udb.Services;
 
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import sv.edu.udb.Data.Conexion;
 
 /**
@@ -23,5 +26,11 @@ public abstract class ServiceBase {
         catch(SQLException e){
             System.out.println("ERROR:No se pudo construir el objeto de conexion:" + e.getMessage());
         }
+    }
+    
+    public String getFechaHoraActual(){
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        return dateFormat.format(date);
     }
 }

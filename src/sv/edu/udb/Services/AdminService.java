@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import sv.edu.udb.Data.Conexion;
+import sv.edu.udb.Data.modelos.DatosPersonales;
 import sv.edu.udb.Data.modelos.Parametros;
 import sv.edu.udb.Data.modelos.Rol;
 import sv.edu.udb.Data.modelos.Usuario;
@@ -25,7 +26,13 @@ public class AdminService extends ServiceBase {
         super();
     }
     
-    public void insertarUsuario(Usuario usuario){
+    public void crearUsuario(Usuario usuario, DatosPersonales dp){
+        dp.id_carne = usuario.id_carne;
+        insertarUsuario(usuario);
+        insertarDatosPersonales(dp);
+    }
+    
+    private void insertarUsuario(Usuario usuario){
         String querySql = "insert into usuario(id_carne,id_catalogo_roles, password, estado) values('"+usuario.id_carne+"',"+usuario.id_catalogo_roles+",'"+usuario.passWord+"',1)";
         
         conexion.ejecutarQuery(querySql);       
@@ -43,6 +50,23 @@ public class AdminService extends ServiceBase {
         conexion.ejecutarQuery(query);
     }
     
+    private void insertarDatosPersonales(DatosPersonales dp){
+        
+        String query = "insert into datos_personales(id_carne,nombre,apellido,genero,email,telefono,direccion)\n" +
+        "values ('"+dp.id_carne+"','"+dp.nombre+"','"+dp.apellido+"',"+dp.genero+",'"+dp.email+"',"
+                + "'"+dp.telefono+"','"+dp.direccion+"')";
+        
+        conexion.ejecutarQuery(query);
+    }
+    
+    public void editarDatosPersonales(DatosPersonales dp){
+        String query = "update datos_personales\n" +
+        "set  nombre='"+dp.nombre+"', apellido = '"+dp.apellido+"', genero = "+dp.genero+","
+                + " email = '"+dp.email+"', telefono='"+dp.telefono+"', direccion='"+dp.direccion+"'\n" +
+        "where id_datos_personales = "+dp.id_datos_personales+"";
+        conexion.ejecutarQuery(query);
+    }
+    
     public void editarParametros(Parametros parametros){
         
         String query = "update parametros\n" +
@@ -51,6 +75,28 @@ public class AdminService extends ServiceBase {
             "where id_parametros = "+parametros.id_parametros+"";
         
         conexion.ejecutarQuery(query);
+    }
+    
+    public Parametros getParametros(){
+        
+        String query = "select * from parametros LIMIT 1";
+        Parametros parametros = new Parametros();
+        ResultSet rs = conexion.RealizarQuery(query);
+        
+        try{
+            while(rs.next()){
+                parametros.id_parametros = rs.getLong("id_parametros");
+                parametros.mora_por_dia = rs.getBigDecimal("mora_por_dia");
+                parametros.dias_prestar_alumno = rs.getInt("dias_prestar_alumno");
+                parametros.dias_prestar_profesor = rs.getInt("dias_prestar_profesor");
+                parametros.cantidad_prestar_alumno = rs.getInt("cantidad_prestar_alumno");
+                parametros.cantidad_prestar_profesor = rs.getInt("cantidad_prestar_profesor");                
+            }
+        } catch(SQLException e){
+            System.out.println("Error: " + e);
+        }
+        
+        return parametros;
     }
     
     public List<Rol> getListaRoles(){
@@ -78,7 +124,7 @@ public class AdminService extends ServiceBase {
     
     public Usuario getUsuario(String carne){
         
-        String query = "select top 1 * from usuario where id_carne = '"+carne+"'";
+        String query = "select * from usuario where id_carne = '"+carne+"' LIMIT 1";
         
         ResultSet rs = conexion.RealizarQuery(query);
         
@@ -99,6 +145,31 @@ public class AdminService extends ServiceBase {
         
         return user;
         
+    }
+    
+    public DatosPersonales getDatosPersonales(String carne){
+        String query = "select * from datos_personales where id_carne = '"+carne+"' limit 1";
+        
+        ResultSet rs = conexion.RealizarQuery(query);
+        
+        DatosPersonales dp = new DatosPersonales();
+        
+        try{
+            while(rs.next()){
+                dp.apellido = rs.getString("apellido");
+                dp.direccion = rs.getString("direccion");
+                dp.email = rs.getString("email");
+                dp.genero = rs.getInt("genero");
+                dp.id_carne = rs.getString("id_carne");
+                dp.id_datos_personales = rs.getLong("id_datos_personales");
+                dp.nombre = rs.getString("nombre");
+                dp.telefono = rs.getString("telefono");
+            }
+        } catch(SQLException e){
+            System.out.println("Error: " + e.getMessage());
+        }
+        
+        return dp;
     }
     
     public List<Usuario> getListaUsuarios(String carne, long idRol, Integer estado){

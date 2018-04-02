@@ -7,6 +7,7 @@ package sv.edu.udb.Services;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import sv.edu.udb.Data.Conexion;
 import sv.edu.udb.Data.modelos.Cd;
 import sv.edu.udb.Data.modelos.Item;
@@ -59,7 +60,7 @@ public class ItemsService extends ServiceBase {
         long codigoItem = insertarItem(cd);
         
         String query = "insert into cd(id_item,album,genero,fecha_lanzamiento,artista)\n" +
-            "values("+cd.id_item+",'"+cd.album+"','"+cd.genero+"','"+cd.fecha_lanzamiento+"','"+cd.artista+"')";
+            "values("+codigoItem+",'"+cd.album+"','"+cd.genero+"','"+cd.fecha_lanzamiento+"','"+cd.artista+"')";
         
         long codigoCd = conexion.realizarInsert(query);
         
@@ -138,5 +139,25 @@ public class ItemsService extends ServiceBase {
         conexion.ejecutarQuery(querySql);
     }
     
-    
+    public Item getItem(long codigoItem){
+        Item item = new Item();
+        
+        String query = "select * from item where id_item = "+codigoItem+"";
+        ResultSet rs = conexion.RealizarQuery(query);
+        
+        try{
+            while(rs.next()){
+                item.id_item = codigoItem;
+                item.descripcion = rs.getString("descripcion");
+                item.id_categoria = rs.getLong("id_categoria");
+                item.id_estante = rs.getLong("id_estante");
+                item.nombre = rs.getString("nombre");
+                item.unidades_para_prestar = rs.getInt("unidades_para_prestar");
+            }
+        } catch (SQLException e){
+            System.out.println("Error: " + e.getMessage());
+        }       
+        
+        return item;
+    }
 }
