@@ -45,7 +45,7 @@ public class Conexion {
     }
 
     /**
-     * Se utiliza para realizar Updates, Deletes e <b>Insers que NO tienen tablas con identity</b>
+     * Se utiliza para realizar Updates, Deletes e <b>Inserts que NO tienen tablas con identity</b>
      */
     public void ejecutarQuery(String query) {
         

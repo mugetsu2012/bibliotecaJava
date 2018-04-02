@@ -6,12 +6,14 @@
 package sv.edu.udb.Data.modelos;
 
 /**
- *
+ * Clase que modelo al objeto estante de la base de datos
  * @author Douglas
  */
-public class Autor {
-    public String nombre;
+public class Estante {
     public long codigo;
+    public String nombre;
+    public String seccion;
+    public String descripcion;
     
     public long getCodigo(){
         return codigo;
@@ -19,5 +21,13 @@ public class Autor {
     
     public String getNombre(){
         return nombre;
+    }
+    
+    public String getDescripcion(){
+        return descripcion;
+    }
+    
+    public String getSeccion(){
+        return seccion;
     }
 }
