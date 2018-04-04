@@ -9,15 +9,21 @@ package sv.edu.udb.Data.modelos;
  *
  * @author Douglas
  */
-public class Autor {
+public class ItemPrestado {
     public String nombre;
-    public long codigo;
-    
-    public long getCodigo(){
-        return codigo;
-    }
+    public String descripcion;
+    public int cantidadPrestamos;
     
     public String getNombre(){
         return nombre;
     }
+    
+    public String getDescripcion(){
+        return descripcion;
+    }
+    
+    public int getCantidadPrestamos(){
+        return cantidadPrestamos;
+    }  
+    
 }

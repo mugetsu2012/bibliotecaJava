@@ -5,9 +5,24 @@
  */
 package sv.udb.edu.modulos.encargados;
 
+import java.math.BigDecimal;
+import java.util.List;
 import sv.edu.udb.Data.modelos.Categoria;
+import sv.edu.udb.Data.modelos.Cd;
+import sv.edu.udb.Data.modelos.DatosPersonales;
+import sv.edu.udb.Data.modelos.Estante;
+import sv.edu.udb.Data.modelos.ItemPrestado;
 import sv.edu.udb.Data.modelos.Libro;
+import sv.edu.udb.Data.modelos.Prestamo;
+import sv.edu.udb.Data.modelos.Revista;
+import sv.edu.udb.Data.modelos.Rol;
+import sv.edu.udb.Data.modelos.Tesis;
+import sv.edu.udb.Data.modelos.Usuario;
+import sv.edu.udb.Services.AdminService;
 import sv.edu.udb.Services.CatalogosService;
+import sv.edu.udb.Services.ItemsService;
+import sv.edu.udb.Services.PrestamosService;
+import sv.edu.udb.Services.ReportesService;
 
 /**
  *
@@ -19,25 +34,7 @@ public class BibliotecaPrimeraFase {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
-        CatalogosService catalogosService = new CatalogosService();
         
-        
-        //Prueba de eliminacion de Categorias
-        catalogosService.eliminarTodasCategorias();
-        
-        //Prueba de insercion de categorias
-        Categoria categoriaPrimera = new Categoria(){};
-        categoriaPrimera.nombre = "Ciencias naturales";
-        categoriaPrimera.descripcion = "Categoria de las Ciencas Naturales en basica";
-        
-        Categoria categoriaSegunda = new Categoria();
-        categoriaSegunda.nombre = "Lenguaje";
-        categoriaSegunda.descripcion = "Categoria que trata acerca de la materia Lenguaje";
-        
-        
-        long primerCodigo = catalogosService.insertarCategoria(categoriaPrimera);
-        long segundaCategoria = catalogosService.insertarCategoria(categoriaSegunda);
     }
     
 }
