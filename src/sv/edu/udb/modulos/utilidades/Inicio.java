@@ -5,6 +5,7 @@
  */
 package sv.edu.udb.modulos.utilidades;
 
+import javax.swing.JOptionPane;
 import sv.edu.udb.modulos.consultas.Consulta;
 
 /**
@@ -49,34 +50,44 @@ public class Inicio extends javax.swing.JFrame {
         });
 
         btnIngresar.setText("Ingresar");
+        btnIngresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIngresarActionPerformed(evt);
+            }
+        });
 
         btnRecuperar.setText("Recuperar credenciales");
+        btnRecuperar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRecuperarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(142, 142, 142)
+                .addGap(145, 145, 145)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(btnRecuperar)
-                    .addComponent(btnIngresar)
+                    .addComponent(lblEnunciado)
                     .addComponent(btnConsultar)
-                    .addComponent(lblEnunciado))
-                .addContainerGap(163, Short.MAX_VALUE))
+                    .addComponent(btnIngresar))
+                .addContainerGap(160, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(lblEnunciado)
-                .addGap(42, 42, 42)
+                .addGap(39, 39, 39)
                 .addComponent(btnConsultar)
-                .addGap(27, 27, 27)
+                .addGap(29, 29, 29)
                 .addComponent(btnIngresar)
-                .addGap(28, 28, 28)
+                .addGap(29, 29, 29)
                 .addComponent(btnRecuperar)
-                .addContainerGap(169, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         pack();
@@ -85,13 +96,23 @@ public class Inicio extends javax.swing.JFrame {
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
         if(bandera == 0)
         {
-            new Consulta().setVisible(true);
+            new Consulta().setVisible(true);            
         }
         else
         {
-            
+            JOptionPane.showMessageDialog(this, "Sólo se puede abrir una ventana");
         }
     }//GEN-LAST:event_btnConsultarActionPerformed
+
+    private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
+        new Login().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnIngresarActionPerformed
+
+    private void btnRecuperarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecuperarActionPerformed
+        new RecuperacionContraseña().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnRecuperarActionPerformed
 
     /**
      * @param args the command line arguments
