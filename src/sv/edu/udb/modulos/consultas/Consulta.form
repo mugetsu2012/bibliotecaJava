@@ -51,14 +51,12 @@
                           <Component id="lblTitulo" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="lblAutores" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="lblMaterial" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblIdioma" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="100" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="txtTitulo" max="32767" attributes="0"/>
                           <Component id="txtAutores" max="32767" attributes="0"/>
-                          <Component id="cmbMaterial" alignment="0" max="32767" attributes="0"/>
-                          <Component id="cmbIdioma" min="-2" pref="164" max="-2" attributes="0"/>
+                          <Component id="cmbCategoria" alignment="0" pref="164" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="111" max="-2" attributes="0"/>
                   </Group>
@@ -88,16 +86,11 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lblMaterial" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="cmbMaterial" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="cmbCategoria" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lblIdioma" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="cmbIdioma" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="186" max="-2" attributes="0"/>
-              <EmptySpace pref="18" max="32767" attributes="0"/>
+              <EmptySpace pref="22" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnLimpiar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnConsultar" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -133,12 +126,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblMaterial">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Material"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="lblIdioma">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Idioma"/>
+        <Property name="text" type="java.lang.String" value="Categoria"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnLimpiar">
@@ -157,34 +145,17 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnConsultarActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JComboBox" name="cmbMaterial">
+    <Component class="javax.swing.JComboBox" name="cmbCategoria">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
-            <StringItem index="0" value="Item 1"/>
-            <StringItem index="1" value="Item 2"/>
-            <StringItem index="2" value="Item 3"/>
-            <StringItem index="3" value="Item 4"/>
-          </StringArray>
+          <StringArray count="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmbCategoriaActionPerformed"/>
+      </Events>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-      </AuxValues>
-    </Component>
-    <Component class="javax.swing.JComboBox" name="cmbIdioma">
-      <Properties>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
-            <StringItem index="0" value="Item 1"/>
-            <StringItem index="1" value="Item 2"/>
-            <StringItem index="2" value="Item 3"/>
-            <StringItem index="3" value="Item 4"/>
-          </StringArray>
-        </Property>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;sv.edu.udb.utiles.ComboItem&gt;"/>
       </AuxValues>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
@@ -194,7 +165,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="jTable1">
+        <Component class="javax.swing.JTable" name="tablaLibros">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="4" rowCount="4">

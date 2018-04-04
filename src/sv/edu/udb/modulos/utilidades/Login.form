@@ -46,9 +46,9 @@
                           <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="txtPassword" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtCarnet" alignment="1" min="-2" pref="111" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="txtCarnet" pref="111" max="32767" attributes="0"/>
+                          <Component id="txtPassword" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -96,9 +96,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtCarnet">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jTextField1"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
@@ -106,9 +103,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JPasswordField" name="txtPassword">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jPasswordField1"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnIngresar">
       <Properties>

@@ -7,7 +7,9 @@ package sv.edu.udb.Services;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import sv.edu.udb.Data.Conexion;
 import sv.edu.udb.Data.modelos.Cd;
 import sv.edu.udb.Data.modelos.Item;
@@ -159,5 +161,58 @@ public class ItemsService extends ServiceBase {
         }       
         
         return item;
+    }
+    
+    public List<Libro> getListadoLibros(String nombre, Integer idCategoria, String autores){
+        
+        List<Libro> libros = new ArrayList<Libro>();
+        
+        String query = "select l.id_libro, i.id_item, l.nota,l.edicion,l.fecha_publicacion, l.lugar_publicacion,l.isbn,l.autores, i.id_categoria, i.id_estante, i.nombre, i.descripcion, i.unidades_para_prestar, c.categoria\n" +
+            "from libro as l\n" +
+            "inner join item as i on i.id_item = l.id_item\n" +
+            "inner join categoria as c on c.id_categoria = i.id_categoria";
+        
+        ResultSet rs = conexion.RealizarQuery(query);
+        
+        try {
+            while(rs.next()){
+                Libro libro = new Libro();
+                libro.id_item = rs.getLong("id_item");
+                libro.descripcion = rs.getString("descripcion");
+                libro.id_categoria = rs.getLong("id_categoria");
+                libro.id_estante = rs.getLong("id_estante");
+                libro.nombre = rs.getString("nombre");
+                libro.unidades_para_prestar = rs.getInt("unidades_para_prestar");
+                libro.edicion = rs.getString("edicion");
+                libro.lugar_publicacion = rs.getString("lugar_publicacion");
+                libro.fecha_publicacion = rs.getString("fecha_publicacion");
+                libro.nota = rs.getString("nota");
+                libro.id_libro = rs.getLong("id_libro");
+                libro.nombreAutor = rs.getString("autores");
+                libro.isbn = rs.getString("isbn");
+                libro.nombreCategoria = rs.getString("categoria");
+                libros.add(libro);                       
+            }
+        } catch (SQLException e){
+            System.out.println("Error: "  + e.getMessage());
+        }
+        
+        //En este punto ya hay libros, toca filtrarlos
+        if(!nombre.isEmpty()){
+            libros = libros.stream().filter(p -> p.nombre.toLowerCase().contains(nombre.toLowerCase()))
+                    .collect(Collectors.toList());
+        }
+        
+        if(!autores.isEmpty()){
+            libros = libros.stream().filter(p -> p.nombreAutor.toLowerCase().contains(autores.toLowerCase()))
+                    .collect(Collectors.toList());
+        }
+        
+        if(idCategoria != null){          
+            libros = libros.stream().filter(p -> p.id_categoria == idCategoria)
+                    .collect(Collectors.toList());
+        }
+        return libros;
+        
     }
 }

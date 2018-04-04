@@ -81,6 +81,29 @@ public class CatalogosService extends ServiceBase {
         return estantes;
     }
     
+    public List<Categoria> getCategorias(){
+        List<Categoria> categorias = new ArrayList<Categoria>();
+        
+        String query = "select * from categoria";
+        ResultSet rs = conexion.RealizarQuery(query);
+        
+        try{
+            while(rs.next()){
+                Categoria categoria = new Categoria();
+                categoria.codigo = rs.getLong("id_categoria");
+                categoria.nombre = rs.getString("categoria");
+                categoria.descripcion = rs.getString("descripcion");
+                categorias.add(categoria);
+            }
+        } catch(SQLException e){
+            System.out.println("Error: " + e.getMessage());
+        }
+        
+        return categorias;
+    }
+    
+    
+    
     /**
      * Metodo para eliminar todas las categorias.
      * <b>Este metodo es solo de prueba, sera removido mas adelante</b>

@@ -5,8 +5,16 @@
  */
 package sv.edu.udb.modulos.consultas;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import sv.edu.udb.Data.modelos.Categoria;
+import sv.edu.udb.Data.modelos.Libro;
+import sv.edu.udb.Services.CatalogosService;
+import sv.edu.udb.Services.ItemsService;
 import sv.edu.udb.modulos.utilidades.Inicio;
+import sv.edu.udb.utiles.ComboItem;
 
 /**
  *
@@ -18,6 +26,8 @@ public class Consulta extends javax.swing.JFrame {
     static String autores = "";
     static String material = "";
     static String idioma = "";
+    ItemsService itemsService = new ItemsService();
+    CatalogosService catalogosService = new CatalogosService();
 
     /**
      * Creates new form consultaBusqueda
@@ -25,8 +35,31 @@ public class Consulta extends javax.swing.JFrame {
     public Consulta() {
         initComponents();
         Inicio.bandera=1;
+        setOpcionesCategoria();
+        buscarDatosTabla("", null, "");
     }
-
+    
+    private void setOpcionesCategoria(){
+        List<Categoria> categorias = catalogosService.getCategorias();
+        cmbCategoria.addItem(new ComboItem("Todas", null));
+        
+        for(Categoria categoria: categorias){
+            cmbCategoria.addItem(new ComboItem(categoria.nombre, String.valueOf(categoria.codigo)));
+        }
+    }
+    
+    private void buscarDatosTabla(String nombre, Integer idCategoria, String autores){
+        List<Libro> libros = itemsService.getListadoLibros(nombre, idCategoria,autores);
+        String[] columnas = {"Nombre","Descripcion","Autores","Edicion", "Categoria"};
+        List<String[]> valores = new ArrayList<String[]>();
+        
+        for(Libro libro : libros){
+            valores.add(new String[]{libro.nombre, libro.descripcion, libro.nombreAutor, libro.edicion, libro.nombreCategoria});
+        }
+        
+        DefaultTableModel tableModel = new DefaultTableModel(valores.toArray(new Object[][] {}), columnas);
+        tablaLibros.setModel(tableModel);        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -42,13 +75,11 @@ public class Consulta extends javax.swing.JFrame {
         lblAutores = new javax.swing.JLabel();
         txtAutores = new javax.swing.JTextField();
         lblMaterial = new javax.swing.JLabel();
-        lblIdioma = new javax.swing.JLabel();
         btnLimpiar = new javax.swing.JButton();
         btnConsultar = new javax.swing.JButton();
-        cmbMaterial = new javax.swing.JComboBox<>();
-        cmbIdioma = new javax.swing.JComboBox<>();
+        cmbCategoria = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaLibros = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setLocationByPlatform(true);
@@ -66,9 +97,7 @@ public class Consulta extends javax.swing.JFrame {
 
         lblAutores.setText("Autor(es)");
 
-        lblMaterial.setText("Material");
-
-        lblIdioma.setText("Idioma");
+        lblMaterial.setText("Categoria");
 
         btnLimpiar.setText("Limpiar");
         btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
@@ -84,11 +113,13 @@ public class Consulta extends javax.swing.JFrame {
             }
         });
 
-        cmbMaterial.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbCategoriaActionPerformed(evt);
+            }
+        });
 
-        cmbIdioma.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaLibros.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -99,7 +130,7 @@ public class Consulta extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tablaLibros);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -124,14 +155,12 @@ public class Consulta extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblTitulo)
                             .addComponent(lblAutores)
-                            .addComponent(lblMaterial)
-                            .addComponent(lblIdioma))
+                            .addComponent(lblMaterial))
                         .addGap(100, 100, 100)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtTitulo)
                             .addComponent(txtAutores)
-                            .addComponent(cmbMaterial, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cmbIdioma, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cmbCategoria, 0, 164, Short.MAX_VALUE))
                         .addGap(111, 111, 111))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(lblEnunciado)
@@ -153,14 +182,10 @@ public class Consulta extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblMaterial)
-                    .addComponent(cmbMaterial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblIdioma)
-                    .addComponent(cmbIdioma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38)
+                    .addComponent(cmbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(65, 65, 65)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnLimpiar)
                     .addComponent(btnConsultar))
@@ -173,18 +198,25 @@ public class Consulta extends javax.swing.JFrame {
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         txtTitulo.setText("");
         txtAutores.setText("");        
-        cmbMaterial.setSelectedItem(null);
-        cmbIdioma.setSelectedItem(null);
+        cmbCategoria.setSelectedIndex(0);
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
-        
+        String autor = txtAutores.getText();
+        String nombre = txtTitulo.getText();
+        ComboItem item = (ComboItem)cmbCategoria.getSelectedItem();
+        Integer codigo = item.getValue() == null ? null : Integer.valueOf(item.getValue());
+        buscarDatosTabla(nombre, codigo, autor);
     }//GEN-LAST:event_btnConsultarActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         Inicio.bandera=0;
         this.dispose();
     }//GEN-LAST:event_formWindowClosing
+
+    private void cmbCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCategoriaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbCategoriaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -225,15 +257,13 @@ public class Consulta extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConsultar;
     private javax.swing.JButton btnLimpiar;
-    private javax.swing.JComboBox<String> cmbIdioma;
-    private javax.swing.JComboBox<String> cmbMaterial;
+    private javax.swing.JComboBox<sv.edu.udb.utiles.ComboItem> cmbCategoria;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblAutores;
     private javax.swing.JLabel lblEnunciado;
-    private javax.swing.JLabel lblIdioma;
     private javax.swing.JLabel lblMaterial;
     private javax.swing.JLabel lblTitulo;
+    private javax.swing.JTable tablaLibros;
     private javax.swing.JTextField txtAutores;
     private javax.swing.JTextField txtTitulo;
     // End of variables declaration//GEN-END:variables
