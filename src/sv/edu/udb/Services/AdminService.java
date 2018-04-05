@@ -45,7 +45,7 @@ public class AdminService extends ServiceBase {
     public void editarUsuario(Usuario usuario){
         String query = "update usuario\n" +
                 "set password = '"+usuario.passWord+"',id_catalogo_roles="+usuario.id_catalogo_roles+",estado = "+usuario.estado+"\n" +
-                "where id_carne = "+usuario.id_carne+"";
+                "where id_carne = '"+usuario.id_carne+"'";
         
         conexion.ejecutarQuery(query);
     }
@@ -63,7 +63,7 @@ public class AdminService extends ServiceBase {
         String query = "update datos_personales\n" +
         "set  nombre='"+dp.nombre+"', apellido = '"+dp.apellido+"', genero = "+dp.genero+","
                 + " email = '"+dp.email+"', telefono='"+dp.telefono+"', direccion='"+dp.direccion+"'\n" +
-        "where id_datos_personales = "+dp.id_datos_personales+"";
+        "where id_carne = '"+dp.id_carne+"'";
         conexion.ejecutarQuery(query);
     }
     
@@ -124,11 +124,16 @@ public class AdminService extends ServiceBase {
     
     public Usuario getUsuario(String carne){
         
-        String query = "select * from usuario where id_carne = '"+carne+"' LIMIT 1";
+         Usuario user = new Usuario();
+        
+        String query = "select u.id_carne, u.id_catalogo_roles, u.password, u.estado, dp.nombre, dp.apellido,c.rol "
+                + " from usuario as u"
+                + " inner join datos_personales as dp on dp.id_carne = u.id_carne "
+                + " inner join catalogo_roles as c on c.id_catalogo_roles = u.id_catalogo_roles "
+                + " where u.id_carne = '"+carne+"'\n";
+            
         
         ResultSet rs = conexion.RealizarQuery(query);
-        
-        Usuario user = new Usuario();
         
         try{
             while(rs.next()){
@@ -137,14 +142,16 @@ public class AdminService extends ServiceBase {
                 user.id_catalogo_roles = rs.getLong("id_catalogo_roles");
                 user.passWord = rs.getString("password");
                 user.estado = rs.getInt("estado");
+                user.nombre = rs.getString("nombre");
+                user.apellido = rs.getString("apellido");
+                user.nombreRol = rs.getString("rol");
                 
             }
-        } catch(SQLException e){
+        } catch (SQLException e){
             System.out.println("Error: " + e.getMessage());
-        }      
-        
+        }               
+                
         return user;
-        
     }
     
     public DatosPersonales getDatosPersonales(String carne){

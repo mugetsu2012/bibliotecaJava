@@ -8,6 +8,8 @@ package sv.udb.edu.modulos.encargados;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import sv.edu.udb.Data.modelos.Categoria;
 import sv.edu.udb.Data.modelos.DatosPersonales;
@@ -32,6 +34,25 @@ public class mantenimientoUsuario extends javax.swing.JInternalFrame {
         initComponents();
         setOpcionesRol();
         buscarDatosTabla(null);
+        rdoMas.setSelected(true);
+        jButton3.setEnabled(false);
+        
+        //Listener para cuando alguen haga click en un row de la tabla,mandemos a la base a sacar el user
+        tablaUsuarios.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+        public void valueChanged(ListSelectionEvent event) {
+            if(!event.getValueIsAdjusting() && tablaUsuarios.getSelectedRow() != -1){
+                
+            //Ir a leer a extraer  el usuario y poblar la tabla
+            renderizarUsuario(tablaUsuarios.getValueAt(tablaUsuarios.getSelectedRow(), 0).toString());
+            
+            //Bloquear el boton guardar y el modificador de carne
+            jButton1.setEnabled(false);
+            txtCarne.setEnabled(false);
+            jButton3.setEnabled(true);
+            }
+        }
+    });
+
     }
     
     private void setOpcionesRol(){
@@ -62,7 +83,7 @@ public class mantenimientoUsuario extends javax.swing.JInternalFrame {
             {
                 nombre = txtNombres.getText();
                 apellido = txtApellidos.getText();
-                genero = 1;
+                genero = rdoMas.isSelected() ? 1 : 0;
                 email = txtEmail.getText();
                 telefono = txtTelefono.getText();
                 direccion = txtDireccion.getText();
@@ -91,6 +112,33 @@ public class mantenimientoUsuario extends javax.swing.JInternalFrame {
         DefaultTableModel tableModel = new DefaultTableModel(valores.toArray(new Object[][] {}), columnas);
         tablaUsuarios.setModel(tableModel);        
     }
+    
+    private void renderizarUsuario(String carne){
+        Usuario user = adminService.getUsuario(carne);
+        DatosPersonales dp = adminService.getDatosPersonales(carne);
+        txtCarne.setText(user.id_carne);
+        cmbRoles.setSelectedIndex(indiceRol(user.id_catalogo_roles));
+        txtPassword.setText(user.passWord);
+        txtNombres.setText(dp.nombre);
+        txtApellidos.setText(dp.apellido);
+        if(dp.genero == 1){
+            rdoMas.setSelected(true);
+            rdoFem.setSelected(false);
+        }
+        else {
+            rdoMas.setSelected(false);
+            rdoFem.setSelected(true);        
+        }
+        txtEmail.setText(dp.email);
+        txtTelefono.setText(dp.telefono);
+        txtDireccion.setText(dp.direccion);
+    }
+    
+    private int indiceRol(long idRol){
+        List<Rol> roles = adminService.getListaRoles();  
+        Rol rol = roles.stream().filter(p -> p.id_catalogo_roles == idRol).collect(Collectors.toList()).get(0);
+        return roles.indexOf(rol);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -112,8 +160,8 @@ public class mantenimientoUsuario extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        rdoMas = new javax.swing.JRadioButton();
+        rdoFem = new javax.swing.JRadioButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -127,7 +175,6 @@ public class mantenimientoUsuario extends javax.swing.JInternalFrame {
         cmbRoles = new javax.swing.JComboBox();
         txtEmail = new javax.swing.JTextField();
         txtNombres = new javax.swing.JTextField();
-        jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         txtBuscador = new javax.swing.JTextField();
 
@@ -180,12 +227,27 @@ public class mantenimientoUsuario extends javax.swing.JInternalFrame {
         jLabel1.setText("Ingresar nombres: ");
 
         jButton2.setText("Limpiar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Ingresar apellidos:");
 
-        jRadioButton1.setText("Masculino");
+        rdoMas.setText("Masculino");
+        rdoMas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdoMasActionPerformed(evt);
+            }
+        });
 
-        jRadioButton2.setText("Femenino");
+        rdoFem.setText("Femenino");
+        rdoFem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdoFemActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Ingrese email");
 
@@ -200,13 +262,16 @@ public class mantenimientoUsuario extends javax.swing.JInternalFrame {
         jLabel7.setText("Direccion");
 
         jButton3.setText("Modificar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jLabel9.setText("Tipo usuario:");
 
         cmbRoles.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "<sv.edu.udb.utiles.ComboItem>" }));
         cmbRoles.setSelectedIndex(-1);
-
-        jButton4.setText("Eliminar");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -217,7 +282,7 @@ public class mantenimientoUsuario extends javax.swing.JInternalFrame {
                 .addComponent(jLabel9)
                 .addGap(26, 26, 26)
                 .addComponent(cmbRoles, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(291, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addContainerGap()
@@ -262,17 +327,16 @@ public class mantenimientoUsuario extends javax.swing.JInternalFrame {
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(jPanel1Layout.createSequentialGroup()
                                             .addGap(20, 20, 20)
-                                            .addComponent(jRadioButton1)
+                                            .addComponent(rdoMas)
                                             .addGap(26, 26, 26)
-                                            .addComponent(jRadioButton2)
+                                            .addComponent(rdoFem)
                                             .addGap(0, 0, Short.MAX_VALUE))
                                         .addComponent(txtTelefono, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
                                         .addComponent(txtApellidos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)))
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addGap(43, 43, 43)
                                     .addComponent(jButton3)
-                                    .addGap(46, 46, 46)
-                                    .addComponent(jButton4)))))
+                                    .addGap(0, 0, Short.MAX_VALUE)))))
                     .addContainerGap()))
         );
         jPanel1Layout.setVerticalGroup(
@@ -307,15 +371,14 @@ public class mantenimientoUsuario extends javax.swing.JInternalFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel7)
                         .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jRadioButton1)
-                        .addComponent(jRadioButton2)
+                        .addComponent(rdoMas)
+                        .addComponent(rdoFem)
                         .addComponent(jLabel8))
                     .addGap(89, 89, 89)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButton1)
                         .addComponent(jButton2)
-                        .addComponent(jButton3)
-                        .addComponent(jButton4))
+                        .addComponent(jButton3))
                     .addContainerGap(38, Short.MAX_VALUE)))
         );
 
@@ -370,11 +433,54 @@ public class mantenimientoUsuario extends javax.swing.JInternalFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:       
         adminService.crearUsuario(leerUsuario(), leerDatosPersonales());
+        buscarDatosTabla(null);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void rdoMasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoMasActionPerformed
+        // TODO add your handling code here:
+        rdoFem.setSelected(false);
+        rdoMas.setSelected(true);
+    }//GEN-LAST:event_rdoMasActionPerformed
+
+    private void rdoFemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoFemActionPerformed
+        // TODO add your handling code here:
+        rdoFem.setSelected(true);
+        rdoMas.setSelected(false);
+    }//GEN-LAST:event_rdoFemActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        jButton1.setEnabled(true);
+        txtCarne.setEnabled(true);
+        jButton3.setEnabled(false);
+        txtCarne.setText("");
+        cmbRoles.setSelectedIndex(0);
+        txtPassword.setText("");
+        txtNombres.setText("");
+        txtApellidos.setText("");
+        rdoMas.setSelected(true);
+        rdoFem.setSelected(false);
+        txtEmail.setText("");
+        txtTelefono.setText("");
+        txtDireccion.setText("");
+        tablaUsuarios.clearSelection();
+        tablaUsuarios.getSelectionModel().clearSelection();
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        Usuario user = leerUsuario();
+        DatosPersonales dp = leerDatosPersonales();
+        dp.id_carne = user.id_carne;
+        adminService.editarDatosPersonales(dp);
+        adminService.editarUsuario(user);
+        buscarDatosTabla(null);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -384,7 +490,6 @@ public class mantenimientoUsuario extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -396,9 +501,9 @@ public class mantenimientoUsuario extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JRadioButton rdoFem;
+    private javax.swing.JRadioButton rdoMas;
     private javax.swing.JTable tablaUsuarios;
     private javax.swing.JTextField txtApellidos;
     private javax.swing.JTextField txtBuscador;
