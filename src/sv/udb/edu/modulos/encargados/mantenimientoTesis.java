@@ -434,7 +434,12 @@ public class mantenimientoTesis extends javax.swing.JInternalFrame {
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new mantenimientoJCategoria().setVisible(true);
+                if (mantenimientoCategoria.bandera == 0) {
+                    mantenimientoCategoria categoria = new mantenimientoCategoria();
+                    getDesktopPane().add(categoria);
+                    categoria.show();
+                    mantenimientoCategoria.bandera = 1;
+                }
             }
         });
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -443,7 +448,12 @@ public class mantenimientoTesis extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new mantenimientoJEstante().setVisible(true);
+                if(mantenimientoEstantes.bandera==0){
+                    mantenimientoEstantes estantes = new mantenimientoEstantes();
+                    getDesktopPane().add(estantes);
+                    estantes.show();
+                    estantes.bandera=1;
+                }
             }
         });
     }//GEN-LAST:event_jButton7ActionPerformed
