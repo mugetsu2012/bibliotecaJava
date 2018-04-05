@@ -5,19 +5,26 @@
  */
 package sv.edu.udb.modulos.utilidades;
 
+import javax.swing.JOptionPane;
+import sv.edu.udb.Services.AdminService;
+import sv.edu.udb.utiles.VariablesGlobales;
+import sv.udb.edu.modulos.encargados.mdiEncargados;
+
 /**
  *
  * @author hilde
  */
 public class Login extends javax.swing.JFrame {
 
+    AdminService adminService = new AdminService();    
+    
     /**
      * Creates new form Login
      */
     public Login() {
         initComponents();
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -48,11 +55,7 @@ public class Login extends javax.swing.JFrame {
 
         lblUsuario.setText("Usuario");
 
-        txtCarnet.setText("jTextField1");
-
         jLabel3.setText("Password");
-
-        txtPassword.setText("jPasswordField1");
 
         btnIngresar.setText("Ingresar");
         btnIngresar.addActionListener(new java.awt.event.ActionListener() {
@@ -88,9 +91,9 @@ public class Login extends javax.swing.JFrame {
                             .addComponent(lblUsuario)
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtPassword, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtCarnet, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtCarnet, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
+                            .addComponent(txtPassword))))
                 .addGap(76, 76, 76))
         );
         layout.setVerticalGroup(
@@ -127,7 +130,23 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-        //
+        String usuario = txtCarnet.getText();
+        String password = txtPassword.getText();
+        //Si el login es valido, lo mandamos al menu principal
+        if(adminService.loginValido(usuario, password)){            
+            VariablesGlobales.setCodigoEncargado(usuario);            
+            new mdiEncargados().setVisible(true);
+            this.dispose();
+        }
+        else {
+            //Le mostramos una venta de error diciendo que las credenciales no son validas
+            JOptionPane.showMessageDialog(null,
+            "Las credenciales ingresadas no son validas",
+            "Espera",
+            JOptionPane.WARNING_MESSAGE);
+        }
+        
+        
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     /**

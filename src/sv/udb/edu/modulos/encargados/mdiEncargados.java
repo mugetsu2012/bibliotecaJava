@@ -4,18 +4,21 @@
  * and open the template in the editor.
  */
 package sv.udb.edu.modulos.encargados;
+import javax.swing.JOptionPane;
+import sv.edu.udb.modulos.utilidades.Login;
+import sv.edu.udb.utiles.VariablesGlobales;
 
 /**
  *
  * @author DavidMguel
  */
 public class mdiEncargados extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form mdiEncargados
      */
     public mdiEncargados() {
-        initComponents();
+        initComponents();                
     }
 
     /**
@@ -36,7 +39,6 @@ public class mdiEncargados extends javax.swing.JFrame {
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
-        saveMenuItem = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
         cutMenuItem = new javax.swing.JMenuItem();
         copyMenuItem = new javax.swing.JMenuItem();
@@ -73,15 +75,6 @@ public class mdiEncargados extends javax.swing.JFrame {
             }
         });
         fileMenu.add(openMenuItem);
-
-        saveMenuItem.setMnemonic('s');
-        saveMenuItem.setText("Roles");
-        saveMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveMenuItemActionPerformed(evt);
-            }
-        });
-        fileMenu.add(saveMenuItem);
 
         menuBar.add(fileMenu);
 
@@ -233,17 +226,6 @@ public class mdiEncargados extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
-    private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
-        // TODO add your handling code here:
-        if(mantenimientoRoles.bandera==0){
-            mantenimientoRoles roles = new mantenimientoRoles();
-            desktopPane.add(roles);
-            roles.show();
-            mantenimientoRoles.bandera=1;
-        }
-
-    }//GEN-LAST:event_saveMenuItemActionPerformed
-
     private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openMenuItemActionPerformed
 
         if(mantenimientoUsuario.bandera==0){
@@ -326,7 +308,7 @@ public class mdiEncargados extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -357,7 +339,6 @@ public class mdiEncargados extends javax.swing.JFrame {
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JMenuItem pasteMenuItem;
-    private javax.swing.JMenuItem saveMenuItem;
     // End of variables declaration//GEN-END:variables
 
 }

@@ -7,7 +7,9 @@ package sv.edu.udb.modulos.utilidades;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
+import sv.edu.udb.modulos.consultas.Consulta;
 import sv.edu.udb.modulos.consultas.ConsultaIntenal;
+import sv.udb.edu.modulos.encargados.mantenimientoPrestamos;
 
 /**
  *
@@ -105,9 +107,7 @@ public class mdiUsuarios extends javax.swing.JFrame {
 
     private void itemConsultarBibliotecaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemConsultarBibliotecaActionPerformed
         if (banderaConsulta == 0) {
-            ConsultaIntenal consulta = new ConsultaIntenal();
-            desktopPane.add(consulta);
-            consulta.show();
+            new Consulta().setVisible(true);            
         } else {
             JOptionPane.showMessageDialog(this, "Sólo se puede agregar una ventana");
         }
@@ -115,6 +115,9 @@ public class mdiUsuarios extends javax.swing.JFrame {
 
     private void itemPrestamosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemPrestamosActionPerformed
         // TODO add your handling code here:
+        mantenimientoPrestamos pre = new mantenimientoPrestamos();
+            desktopPane.add(pre);
+            pre.show();
     }//GEN-LAST:event_itemPrestamosActionPerformed
 
     private void itemCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemCerrarSesionActionPerformed

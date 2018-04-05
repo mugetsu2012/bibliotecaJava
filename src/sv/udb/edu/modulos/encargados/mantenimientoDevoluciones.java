@@ -5,6 +5,14 @@
  */
 package sv.udb.edu.modulos.encargados;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import sv.edu.udb.Data.modelos.Devolucion;
+import sv.edu.udb.Data.modelos.Prestamo;
+import sv.edu.udb.Services.PrestamosService;
+import javax.swing.ListSelectionModel;
+
 /**
  *
  * @author DavidMguel
@@ -17,8 +25,45 @@ public class mantenimientoDevoluciones extends javax.swing.JInternalFrame {
     
     static int bandera= 0;
     
+    PrestamosService prestamosService = new PrestamosService();
+    
     public mantenimientoDevoluciones() {
         initComponents();
+        tablaDevoluciones.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        llenarDatosTabla();        
+    }
+    
+    private void limpiarTxt(){
+        txtCodigoPrestamo.setText("");
+        txtMoraCancelada.setText("");
+        txtDescripcion.setText("");
+    }
+    
+    private void llenarDatosTabla(){
+        List<Devolucion> devoluciones = prestamosService.getListaDevolucion();
+        
+        String[] columnas = {"Devolución","Prestamo","Fecha devolución","Mora cancelada","Descripción"};
+        
+        List<String[]> valores = new ArrayList<String[]>();
+        
+        for(Devolucion devolucion:devoluciones){
+            valores.add(new String[]{String.valueOf(devolucion.id_devolucion),String.valueOf(devolucion.id_prestamo),
+            devolucion.fecha_devolucion,String.valueOf(devolucion.mora_cancelada),devolucion.descripcion});
+        }
+        
+        DefaultTableModel tableModel = new DefaultTableModel(valores.toArray(new Object[][]{}),columnas);
+        tablaDevoluciones.setModel(tableModel);
+    }
+    
+    private Devolucion leerDevolucion(){
+        Devolucion devolucion = new Devolucion(){
+                {
+                    id_prestamo=Long.valueOf(txtCodigoPrestamo.getText());
+                    mora_cancelada=prestamosService.totalMora(Long.valueOf(txtCodigoPrestamo.getText()));
+                    descripcion=txtDescripcion.getText();                    
+                }
+        };
+        return devolucion;
     }
 
     /**
@@ -31,19 +76,17 @@ public class mantenimientoDevoluciones extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaDevoluciones = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtCodigoPrestamo = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtMoraCancelada = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        txtDescripcion = new javax.swing.JTextArea();
+        btnGuardar = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -74,7 +117,7 @@ public class mantenimientoDevoluciones extends javax.swing.JInternalFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaDevoluciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -85,7 +128,12 @@ public class mantenimientoDevoluciones extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tablaDevoluciones.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaDevolucionesMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tablaDevoluciones);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Devoluciones"));
 
@@ -93,19 +141,27 @@ public class mantenimientoDevoluciones extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Mora cancelada:");
 
+        txtMoraCancelada.setEditable(false);
+
         jLabel3.setText("Descripción:");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        txtDescripcion.setColumns(20);
+        txtDescripcion.setRows(5);
+        jScrollPane2.setViewportView(txtDescripcion);
 
-        jButton1.setText("Guardar");
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Modificar");
-
-        jButton3.setText("Eliminar");
-
-        jButton4.setText("Limpiar");
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -120,21 +176,19 @@ public class mantenimientoDevoluciones extends javax.swing.JInternalFrame {
                             .addComponent(jLabel2))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1)
-                            .addComponent(jTextField2)))
+                            .addComponent(txtCodigoPrestamo)
+                            .addComponent(txtMoraCancelada)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton3)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton4)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(btnGuardar)
+                                .addGap(55, 55, 55)
+                                .addComponent(btnLimpiar)
+                                .addGap(43, 43, 43)))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -143,21 +197,19 @@ public class mantenimientoDevoluciones extends javax.swing.JInternalFrame {
                 .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCodigoPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtMoraCancelada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4)
-                    .addComponent(jButton3)
-                    .addComponent(jButton2)
-                    .addComponent(jButton1))
+                    .addComponent(btnLimpiar)
+                    .addComponent(btnGuardar))
                 .addContainerGap())
         );
 
@@ -190,21 +242,35 @@ public class mantenimientoDevoluciones extends javax.swing.JInternalFrame {
         bandera = 0;
     }//GEN-LAST:event_formInternalFrameClosing
 
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        prestamosService.realizarDevolucion(leerDevolucion());
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        limpiarTxt();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void tablaDevolucionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaDevolucionesMouseClicked
+        int filaSeleccionada = tablaDevoluciones.getSelectedRow();
+        DefaultTableModel modelo = (DefaultTableModel)tablaDevoluciones.getModel();
+        txtCodigoPrestamo.setText(modelo.getValueAt(filaSeleccionada, 1).toString());
+        txtMoraCancelada.setText(modelo.getValueAt(filaSeleccionada, 3).toString());
+        txtDescripcion.setText(modelo.getValueAt(filaSeleccionada, 4).toString());
+    }//GEN-LAST:event_tablaDevolucionesMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnLimpiar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTable tablaDevoluciones;
+    private javax.swing.JTextField txtCodigoPrestamo;
+    private javax.swing.JTextArea txtDescripcion;
+    private javax.swing.JTextField txtMoraCancelada;
     // End of variables declaration//GEN-END:variables
 }

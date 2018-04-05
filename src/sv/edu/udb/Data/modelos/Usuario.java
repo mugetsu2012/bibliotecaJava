@@ -14,6 +14,9 @@ public class Usuario {
     public long id_catalogo_roles;
     public String passWord;
     public int estado;
+    public String nombre;
+    public String apellido;
+    public String nombreRol;
     
     public String getId_carne(){
         return id_carne;
@@ -29,5 +32,13 @@ public class Usuario {
     
     public int getEstado(){
         return estado;
+    }
+    
+    public String getNombre(){
+        return nombre;
+    }
+    
+    public String getApellido(){
+        return apellido;
     }
 }

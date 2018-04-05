@@ -16,6 +16,7 @@ public class Item {
     public String nombre;   
     public String descripcion;
     public int unidades_para_prestar;
+    public String nombreCategoria;
     
     
     public long getId_item(){
@@ -40,5 +41,9 @@ public class Item {
     
     public int getUnidades_para_prestar(){
         return unidades_para_prestar;
+    }
+    
+    public String getNombreCategoria(){
+        return nombreCategoria;
     }
 }
