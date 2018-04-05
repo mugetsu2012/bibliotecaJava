@@ -5,19 +5,69 @@
  */
 package sv.udb.edu.modulos.encargados;
 
+import java.util.ArrayList;
+import java.util.List;
+import javafx.scene.control.SelectionMode;
+import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
+import sv.edu.udb.Services.PrestamosService;
+import sv.edu.udb.Data.modelos.Prestamo;
+import sv.edu.udb.utiles.VariablesGlobales;
+
 /**
  *
  * @author DavidMguel
  */
 public class mantenimientoPrestamos extends javax.swing.JInternalFrame {
-
+    
     /**
      * Creates new form mantenimientoPrestamos
      */
     
     static int bandera = 0;
+    PrestamosService prestamosService = new PrestamosService();
+    
     public mantenimientoPrestamos() {
         initComponents();
+        tablaPrestamos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        llenarDatosTabla();
+    }
+    
+    private void limpiarTxt(){
+        txtCarneUsuario.setText("");
+        txtCodigoItem.setText("");
+        txtFechaDevolucion.setText("");
+        txtDescripcion.setText("");
+    }
+    
+    private void llenarDatosTabla(){
+        List<Prestamo> prestamos = prestamosService.getListaPrestamo();
+        
+        String[] columnas = {"Préstamo","Item","Usuario","Fecha préstamo","Fecha devolución","Descripción"};
+        
+        List<String[]> valores = new ArrayList<String[]>();
+        
+        for(Prestamo prestamo:prestamos){
+            valores.add(new String[]{String.valueOf(prestamo.id_prestamo),String.valueOf(prestamo.id_item),
+                prestamo.id_carne_solicita,prestamo.fecha_prestamo,prestamo.fecha_pactada,prestamo.descripcion});
+        }
+        
+        DefaultTableModel tableModel = new DefaultTableModel(valores.toArray(new Object[][]{}),columnas);
+        tablaPrestamos.setModel(tableModel);
+    }
+    
+    private Prestamo leerPrestamo(){
+        Prestamo prestamo = new Prestamo(){
+            {
+                id_item=Long.valueOf(txtCodigoItem.getText());
+                id_carne_solicita=txtCarneUsuario.getText();
+                id_carne_autoriza=VariablesGlobales.getCodigoEncargado();
+                descripcion=txtDescripcion.getText();
+            }
+        };
+        
+        return prestamo;
     }
 
     /**
@@ -30,21 +80,19 @@ public class mantenimientoPrestamos extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaPrestamos = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtCodigoItem = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtCarneUsuario = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        txtFechaDevolucion = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        txtDescripcion = new javax.swing.JTextArea();
+        btnGuardar = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -74,7 +122,7 @@ public class mantenimientoPrestamos extends javax.swing.JInternalFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaPrestamos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -85,29 +133,42 @@ public class mantenimientoPrestamos extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tablaPrestamos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaPrestamosMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tablaPrestamos);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Prestamo"));
 
-        jLabel1.setText("Código libro:");
+        jLabel1.setText("Código item:");
 
-        jLabel2.setText("Carne estudiante:");
+        jLabel2.setText("Carne usuario:");
 
         jLabel3.setText("Fecha devolución:");
 
+        txtFechaDevolucion.setEditable(false);
+
         jLabel4.setText("Descripción:");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        txtDescripcion.setColumns(20);
+        txtDescripcion.setRows(5);
+        jScrollPane2.setViewportView(txtDescripcion);
 
-        jButton1.setText("Guardar");
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Modificar");
-
-        jButton3.setText("Eliminar");
-
-        jButton4.setText("Limpiar");
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -117,30 +178,27 @@ public class mantenimientoPrestamos extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextField1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextField2))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField3))
+                        .addComponent(txtFechaDevolucion))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane2))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnGuardar)
+                        .addGap(83, 83, 83)
+                        .addComponent(btnLimpiar)
+                        .addGap(65, 65, 65))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton3)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton4)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtCodigoItem)
+                            .addComponent(txtCarneUsuario))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -149,25 +207,23 @@ public class mantenimientoPrestamos extends javax.swing.JInternalFrame {
                 .addContainerGap(32, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCodigoItem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCarneUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtFechaDevolucion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4)
-                    .addComponent(jButton3)
-                    .addComponent(jButton2)
-                    .addComponent(jButton1)))
+                    .addComponent(btnLimpiar)
+                    .addComponent(btnGuardar)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -199,12 +255,26 @@ public class mantenimientoPrestamos extends javax.swing.JInternalFrame {
         bandera = 0;
     }//GEN-LAST:event_formInternalFrameClosing
 
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        prestamosService.realizarPrestamo(leerPrestamo());
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        limpiarTxt();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void tablaPrestamosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaPrestamosMouseClicked
+        int filaSeleccionada = tablaPrestamos.getSelectedRow();
+        DefaultTableModel modelo = (DefaultTableModel)tablaPrestamos.getModel();
+        txtCodigoItem.setText(modelo.getValueAt(filaSeleccionada, 1).toString());
+        txtCarneUsuario.setText(modelo.getValueAt(filaSeleccionada, 2).toString());
+        txtFechaDevolucion.setText(modelo.getValueAt(filaSeleccionada, 4).toString());
+    }//GEN-LAST:event_tablaPrestamosMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnLimpiar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -212,10 +282,10 @@ public class mantenimientoPrestamos extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTable tablaPrestamos;
+    private javax.swing.JTextField txtCarneUsuario;
+    private javax.swing.JTextField txtCodigoItem;
+    private javax.swing.JTextArea txtDescripcion;
+    private javax.swing.JTextField txtFechaDevolucion;
     // End of variables declaration//GEN-END:variables
 }

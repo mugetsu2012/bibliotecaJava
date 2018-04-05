@@ -175,8 +175,6 @@ public class mantenimientoUsuario extends javax.swing.JInternalFrame {
         cmbRoles = new javax.swing.JComboBox();
         txtEmail = new javax.swing.JTextField();
         txtNombres = new javax.swing.JTextField();
-        jButton5 = new javax.swing.JButton();
-        txtBuscador = new javax.swing.JTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -271,7 +269,6 @@ public class mantenimientoUsuario extends javax.swing.JInternalFrame {
         jLabel9.setText("Tipo usuario:");
 
         cmbRoles.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "<sv.edu.udb.utiles.ComboItem>" }));
-        cmbRoles.setSelectedIndex(-1);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -382,13 +379,6 @@ public class mantenimientoUsuario extends javax.swing.JInternalFrame {
                     .addContainerGap(38, Short.MAX_VALUE)))
         );
 
-        jButton5.setText("Buscar");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -397,12 +387,6 @@ public class mantenimientoUsuario extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1)
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(94, 94, 94)
-                .addComponent(jButton5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtBuscador, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(92, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -414,11 +398,7 @@ public class mantenimientoUsuario extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtBuscador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5))
-                .addGap(28, 28, 28)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(22, Short.MAX_VALUE))
         );
 
@@ -435,10 +415,6 @@ public class mantenimientoUsuario extends javax.swing.JInternalFrame {
         adminService.crearUsuario(leerUsuario(), leerDatosPersonales());
         buscarDatosTabla(null);
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
 
     private void rdoMasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoMasActionPerformed
         // TODO add your handling code here:
@@ -490,7 +466,6 @@ public class mantenimientoUsuario extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -506,7 +481,6 @@ public class mantenimientoUsuario extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton rdoMas;
     private javax.swing.JTable tablaUsuarios;
     private javax.swing.JTextField txtApellidos;
-    private javax.swing.JTextField txtBuscador;
     private javax.swing.JTextField txtCarne;
     private javax.swing.JTextField txtDireccion;
     private javax.swing.JTextField txtEmail;
