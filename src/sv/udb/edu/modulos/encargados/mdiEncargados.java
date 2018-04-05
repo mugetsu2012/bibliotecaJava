@@ -4,18 +4,21 @@
  * and open the template in the editor.
  */
 package sv.udb.edu.modulos.encargados;
+import javax.swing.JOptionPane;
+import sv.edu.udb.modulos.utilidades.Login;
+import sv.edu.udb.utiles.VariablesGlobales;
 
 /**
  *
  * @author DavidMguel
  */
 public class mdiEncargados extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form mdiEncargados
      */
     public mdiEncargados() {
-        initComponents();
+        initComponents();                
     }
 
     /**

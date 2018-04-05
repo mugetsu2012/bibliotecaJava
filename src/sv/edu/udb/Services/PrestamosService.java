@@ -31,11 +31,12 @@ public class PrestamosService extends ServiceBase {
         super();
     }
     
-    List<Prestamo> getListaPrestamo(){
+    public List<Prestamo> getListaPrestamo(){
         
         List<Prestamo> prestamos = new ArrayList<Prestamo>();
         
-        String query = "select * from prestamo";
+        String query = "select * from prestamo left join devolucion "
+                + "on devolucion.id_prestamo = prestamo.id_prestamo where devolucion.id_prestamo is null";
         
         ResultSet rs = conexion.RealizarQuery(query);
         
@@ -84,6 +85,29 @@ public class PrestamosService extends ServiceBase {
         }
         
         return prestamo;
+    }
+    
+    public List<Devolucion> getListaDevolucion(){
+        List<Devolucion> devoluciones = new ArrayList<Devolucion>();
+        
+        String query = "select * from devolucion";
+        
+        ResultSet rs = conexion.RealizarQuery(query);
+        
+        try{
+            while(rs.next()){
+                Devolucion devolucion = new Devolucion();
+                devolucion.id_devolucion = rs.getLong("id_devolucion");
+                devolucion.id_prestamo=rs.getLong("id_prestamo");
+                devolucion.fecha_devolucion=rs.getString("fecha_devolucion");
+                devolucion.mora_cancelada=rs.getBigDecimal("mora_cancelada");
+                devolucion.descripcion=rs.getString("descripcion");
+            }
+        } catch(SQLException e){
+            System.out.println("Error: " + e.getMessage());
+        }
+        
+        return devoluciones;
     }
     
     /**

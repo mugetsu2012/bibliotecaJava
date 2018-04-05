@@ -7,6 +7,7 @@ package sv.edu.udb.modulos.utilidades;
 
 import javax.swing.JOptionPane;
 import sv.edu.udb.Services.AdminService;
+import sv.edu.udb.utiles.VariablesGlobales;
 import sv.udb.edu.modulos.encargados.mdiEncargados;
 
 /**
@@ -15,7 +16,7 @@ import sv.udb.edu.modulos.encargados.mdiEncargados;
  */
 public class Login extends javax.swing.JFrame {
 
-    AdminService adminService = new AdminService();
+    AdminService adminService = new AdminService();    
     
     /**
      * Creates new form Login
@@ -23,7 +24,7 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -132,8 +133,10 @@ public class Login extends javax.swing.JFrame {
         String usuario = txtCarnet.getText();
         String password = txtPassword.getText();
         //Si el login es valido, lo mandamos al menu principal
-        if(adminService.loginValido(usuario, password)){
+        if(adminService.loginValido(usuario, password)){            
+            VariablesGlobales.setCodigoEncargado(usuario);            
             new mdiEncargados().setVisible(true);
+            this.dispose();
         }
         else {
             //Le mostramos una venta de error diciendo que las credenciales no son validas
