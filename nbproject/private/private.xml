@@ -2,25 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/Douglas/Documents/ReposPersonales/BibliotecaJava/src/sv/edu/udb/Data/Conexion.java</file>
-            <file>file:/C:/Users/Douglas/Documents/ReposPersonales/BibliotecaJava/src/sv/edu/udb/modulos/utilidades/mdiUsuarios.java</file>
-            <file>file:/C:/Users/Douglas/Documents/ReposPersonales/BibliotecaJava/src/sv/udb/edu/modulos/encargados/mantenimientoLibros.java</file>
-            <file>file:/C:/Users/Douglas/Documents/ReposPersonales/BibliotecaJava/src/sv/edu/udb/Data/modelos/Usuario.java</file>
-            <file>file:/C:/Users/Douglas/Documents/ReposPersonales/BibliotecaJava/src/sv/edu/udb/Services/AdminService.java</file>
-            <file>file:/C:/Users/Douglas/Documents/ReposPersonales/BibliotecaJava/src/sv/edu/udb/Services/CatalogosService.java</file>
-            <file>file:/C:/Users/Douglas/Documents/ReposPersonales/BibliotecaJava/src/sv/edu/udb/modulos/utilidades/Inicio.java</file>
-            <file>file:/C:/Users/Douglas/Documents/ReposPersonales/BibliotecaJava/src/sv/udb/edu/modulos/encargados/mantenimientoUsuario.java</file>
-            <file>file:/C:/Users/Douglas/Documents/ReposPersonales/BibliotecaJava/src/sv/edu/udb/modulos/consultas/Consulta.java</file>
-            <file>file:/C:/Users/Douglas/Documents/ReposPersonales/BibliotecaJava/src/sv/edu/udb/Data/modelos/DatosPersonales.java</file>
-            <file>file:/C:/Users/Douglas/Documents/ReposPersonales/BibliotecaJava/src/sv/edu/udb/modulos/consultas/ConsultaIntenal.java</file>
-            <file>file:/C:/Users/Douglas/Documents/ReposPersonales/BibliotecaJava/src/sv/edu/udb/Services/PrestamosService.java</file>
-            <file>file:/C:/Users/Douglas/Documents/ReposPersonales/BibliotecaJava/src/sv/udb/edu/modulos/encargados/mdiEncargados.java</file>
-            <file>file:/C:/Users/Douglas/Documents/ReposPersonales/BibliotecaJava/src/sv/udb/edu/modulos/encargados/BibliotecaPrimeraFase.java</file>
-            <file>file:/C:/Users/Douglas/Documents/ReposPersonales/BibliotecaJava/src/sv/edu/udb/Services/ReportesService.java</file>
-            <file>file:/C:/Users/Douglas/Documents/ReposPersonales/BibliotecaJava/src/sv/edu/udb/Data/modelos/Item.java</file>
-            <file>file:/C:/Users/Douglas/Documents/ReposPersonales/BibliotecaJava/src/sv/edu/udb/Services/ItemsService.java</file>
-            <file>file:/C:/Users/Douglas/Documents/ReposPersonales/BibliotecaJava/src/sv/edu/udb/Data/modelos/Libro.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

@@ -306,6 +306,8 @@ public class mantenimientoLibros extends javax.swing.JInternalFrame {
 
         jLabel10.setText("ISBN:");
 
+        txtFechaPublicacion.setToolTipText("año-mes-dia");
+
         jLabel11.setText("Unidades prestar");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -479,7 +481,12 @@ public class mantenimientoLibros extends javax.swing.JInternalFrame {
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new mantenimientoJCategoria().setVisible(true);
+                if (mantenimientoCategoria.bandera == 0) {
+                    mantenimientoCategoria categoria = new mantenimientoCategoria();
+                    getDesktopPane().add(categoria);
+                    categoria.show();
+                    mantenimientoCategoria.bandera = 1;
+                }
             }
         });
         
@@ -489,7 +496,12 @@ public class mantenimientoLibros extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new mantenimientoJEstante().setVisible(true);
+                if(mantenimientoEstantes.bandera==0){
+                    mantenimientoEstantes estantes = new mantenimientoEstantes();
+                    getDesktopPane().add(estantes);
+                    estantes.show();
+                    estantes.bandera=1;
+                }
             }
         });
     }//GEN-LAST:event_jButton7ActionPerformed
@@ -525,6 +537,7 @@ public class mantenimientoLibros extends javax.swing.JInternalFrame {
         cmbEstante.setSelectedIndex(0);   
         jButton5.setEnabled(true);
         jButton2.setEnabled(false);
+        txtFechaPublicacion.setText("");
     }//GEN-LAST:event_jButton4ActionPerformed
 
 

@@ -414,6 +414,21 @@ public class mantenimientoUsuario extends javax.swing.JInternalFrame {
         // TODO add your handling code here:       
         adminService.crearUsuario(leerUsuario(), leerDatosPersonales());
         buscarDatosTabla(null);
+        jButton1.setEnabled(true);
+        txtCarne.setEnabled(true);
+        jButton3.setEnabled(false);
+        txtCarne.setText("");
+        cmbRoles.setSelectedIndex(0);
+        txtPassword.setText("");
+        txtNombres.setText("");
+        txtApellidos.setText("");
+        rdoMas.setSelected(true);
+        rdoFem.setSelected(false);
+        txtEmail.setText("");
+        txtTelefono.setText("");
+        txtDireccion.setText("");
+        tablaUsuarios.clearSelection();
+        tablaUsuarios.getSelectionModel().clearSelection();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void rdoMasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoMasActionPerformed
