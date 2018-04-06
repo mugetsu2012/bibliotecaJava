@@ -79,7 +79,6 @@ public class mantenimientoEstantes extends javax.swing.JInternalFrame {
         txtDescripcion = new javax.swing.JTextArea();
         btnGuardar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
-        btnEliminar = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
 
         setClosable(true);
@@ -155,8 +154,6 @@ public class mantenimientoEstantes extends javax.swing.JInternalFrame {
             }
         });
 
-        btnEliminar.setText("Eliminar");
-
         btnLimpiar.setText("Limpiar");
         btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -184,13 +181,11 @@ public class mantenimientoEstantes extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane2))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 94, Short.MAX_VALUE)
                         .addComponent(btnGuardar)
-                        .addGap(18, 18, 18)
+                        .addGap(58, 58, 58)
                         .addComponent(btnModificar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnEliminar)
-                        .addGap(18, 18, 18)
+                        .addGap(65, 65, 65)
                         .addComponent(btnLimpiar)))
                 .addContainerGap())
         );
@@ -212,7 +207,6 @@ public class mantenimientoEstantes extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnLimpiar)
-                    .addComponent(btnEliminar)
                     .addComponent(btnModificar)
                     .addComponent(btnGuardar))
                 .addContainerGap())
@@ -247,16 +241,16 @@ public class mantenimientoEstantes extends javax.swing.JInternalFrame {
         bandera = 0;
     }//GEN-LAST:event_formInternalFrameClosing
 
-    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-        LimpiarTxt();
-    }//GEN-LAST:event_btnLimpiarActionPerformed
-
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         catalogosService.insertarEstante(LeerEstante());
+        LlenarTablaEstante();
+        LimpiarTxt();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         catalogosService.editarEstante(LeerEstante());
+        LlenarTablaEstante();
+        LimpiarTxt();
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void tablaEstantesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaEstantesMouseClicked
@@ -267,9 +261,12 @@ public class mantenimientoEstantes extends javax.swing.JInternalFrame {
         txtDescripcion.setText(modelo.getValueAt(filaSeleccionada, 3).toString());
     }//GEN-LAST:event_tablaEstantesMouseClicked
 
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        LimpiarTxt();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnModificar;

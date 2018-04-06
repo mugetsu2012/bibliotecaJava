@@ -306,6 +306,8 @@ public class mantenimientoLibros extends javax.swing.JInternalFrame {
 
         jLabel10.setText("ISBN:");
 
+        txtFechaPublicacion.setToolTipText("año-mes-dia");
+
         jLabel11.setText("Unidades prestar");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -535,6 +537,7 @@ public class mantenimientoLibros extends javax.swing.JInternalFrame {
         cmbEstante.setSelectedIndex(0);   
         jButton5.setEnabled(true);
         jButton2.setEnabled(false);
+        txtFechaPublicacion.setText("");
     }//GEN-LAST:event_jButton4ActionPerformed
 
 

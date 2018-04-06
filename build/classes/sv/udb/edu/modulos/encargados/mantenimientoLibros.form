@@ -393,6 +393,9 @@
         <Component class="javax.swing.JTextField" name="txtIsbn">
         </Component>
         <Component class="javax.swing.JTextField" name="txtFechaPublicacion">
+          <Properties>
+            <Property name="toolTipText" type="java.lang.String" value="a&#xf1;o-mes-dia"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel11">
           <Properties>

@@ -5,6 +5,10 @@
  */
 package sv.edu.udb.modulos.utilidades;
 
+import java.math.BigDecimal;
+import javax.swing.JOptionPane;
+import sv.edu.udb.Services.AdminService;
+
 /**
  *
  * @author yuuta
@@ -15,8 +19,52 @@ public class Parametros extends javax.swing.JInternalFrame {
      * Creates new form Parametros
      */
     public static int bandera = 0;
+    AdminService adminService = new AdminService();
+    sv.edu.udb.Data.modelos.Parametros parametros;
     public Parametros() {
         initComponents();
+        verificarExistenciaPatametros();
+    }
+    
+    private void llenarCampos(){        
+        parametros = adminService.getParametros();
+        txtCantidadPalum.setText(String.valueOf(parametros.cantidad_prestar_alumno));
+        txtCantidadPprof.setText(String.valueOf(parametros.cantidad_prestar_profesor));
+        txtDiasPrestamoalum.setText(String.valueOf(parametros.dias_prestar_alumno));
+        txtDiasPrestamoprof.setText(String.valueOf(parametros.dias_prestar_profesor));
+        txtMoraDia.setText(String.valueOf(parametros.mora_por_dia));
+    }
+    
+    private void verificarExistenciaPatametros(){
+        parametros = adminService.getParametros();
+        if(parametros.getId_parametros()==0){
+            btnAccion.setText("Ingresar");
+        }
+        else{
+            llenarCampos();
+            btnAccion.setText("Modificar");
+        }
+    }
+    
+    private sv.edu.udb.Data.modelos.Parametros leerParametros(){
+        sv.edu.udb.Data.modelos.Parametros parametros = new sv.edu.udb.Data.modelos.Parametros();
+        
+        parametros.id_parametros=this.parametros.id_parametros;
+        parametros.dias_prestar_alumno=Integer.valueOf(txtDiasPrestamoalum.getText());
+        parametros.dias_prestar_profesor=Integer.valueOf(txtDiasPrestamoprof.getText());
+        parametros.cantidad_prestar_alumno=Integer.valueOf(txtCantidadPalum.getText());
+        parametros.cantidad_prestar_profesor=Integer.valueOf(txtCantidadPprof.getText());
+        parametros.mora_por_dia=new BigDecimal(txtMoraDia.getText());
+        
+        return parametros;
+    }
+    
+    private void limpiarTxt(){
+        txtCantidadPalum.setText("");
+        txtCantidadPprof.setText("");
+        txtDiasPrestamoalum.setText("");
+        txtDiasPrestamoprof.setText("");
+        txtMoraDia.setText("");
     }
 
     /**
@@ -40,8 +88,8 @@ public class Parametros extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         txtMoraDia = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnAccion = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -125,29 +173,39 @@ public class Parametros extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton1.setText("Modificar");
+        btnAccion.setText("Modificar");
+        btnAccion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAccionActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Eliminar");
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(127, 127, 127)
-                .addComponent(jButton1)
-                .addGap(18, 18, 18)
-                .addComponent(jButton2)
-                .addContainerGap(135, Short.MAX_VALUE))
+                .addGap(99, 99, 99)
+                .addComponent(btnAccion)
+                .addGap(70, 70, 70)
+                .addComponent(btnLimpiar)
+                .addContainerGap(118, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(36, 36, 36)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addContainerGap(44, Short.MAX_VALUE))
+                    .addComponent(btnAccion)
+                    .addComponent(btnLimpiar))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -179,10 +237,29 @@ public class Parametros extends javax.swing.JInternalFrame {
         bandera = 0;
     }//GEN-LAST:event_formInternalFrameClosing
 
+    private void btnAccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccionActionPerformed
+        try {
+            if (btnAccion.getText().equals("Ingresar")) {
+                adminService.insertarParametros(leerParametros());
+                JOptionPane.showMessageDialog(this, "Parámetros ingresados");
+                verificarExistenciaPatametros();
+            } else if(btnAccion.getText().equals("Modificar")){
+                adminService.editarParametros(leerParametros());
+                JOptionPane.showMessageDialog(this, "Parámetros modificados");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Revise los campos, no pueden ser nulos");
+        }
+    }//GEN-LAST:event_btnAccionActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        limpiarTxt();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnAccion;
+    private javax.swing.JButton btnLimpiar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

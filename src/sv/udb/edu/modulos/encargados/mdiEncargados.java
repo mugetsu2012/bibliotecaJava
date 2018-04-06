@@ -7,6 +7,7 @@ package sv.udb.edu.modulos.encargados;
 import javax.swing.JOptionPane;
 import sv.edu.udb.modulos.utilidades.Login;
 import sv.edu.udb.utiles.VariablesGlobales;
+import sv.edu.udb.modulos.utilidades.Parametros;
 
 /**
  *
@@ -48,9 +49,10 @@ public class mdiEncargados extends javax.swing.JFrame {
         contentMenuItem = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
+        itemParametros = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
 
         jMenu1.setText("jMenu1");
 
@@ -145,7 +147,7 @@ public class mdiEncargados extends javax.swing.JFrame {
 
         menuBar.add(jMenu5);
 
-        jMenu4.setText("Anexos");
+        itemParametros.setText("Anexos");
 
         jMenuItem2.setText("Categorías");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
@@ -153,7 +155,7 @@ public class mdiEncargados extends javax.swing.JFrame {
                 jMenuItem2ActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem2);
+        itemParametros.add(jMenuItem2);
 
         jMenuItem3.setText("Estante");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
@@ -161,9 +163,17 @@ public class mdiEncargados extends javax.swing.JFrame {
                 jMenuItem3ActionPerformed(evt);
             }
         });
-        jMenu4.add(jMenuItem3);
+        itemParametros.add(jMenuItem3);
 
-        menuBar.add(jMenu4);
+        jMenuItem5.setText("Parámetros");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        itemParametros.add(jMenuItem5);
+
+        menuBar.add(itemParametros);
 
         setJMenuBar(menuBar);
 
@@ -281,6 +291,15 @@ public class mdiEncargados extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_deleteMenuItemActionPerformed
 
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        if (Parametros.bandera == 0) {
+            Parametros mantenimientoParametros = new Parametros();
+            desktopPane.add(mantenimientoParametros);
+            mantenimientoParametros.show();
+            Parametros.bandera = 1;
+        }
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -326,16 +345,17 @@ public class mdiEncargados extends javax.swing.JFrame {
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenu helpMenu;
+    private javax.swing.JMenu itemParametros;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JMenuItem pasteMenuItem;

@@ -67,6 +67,14 @@ public class AdminService extends ServiceBase {
         conexion.ejecutarQuery(query);
     }
     
+    public void insertarParametros(Parametros parametros){
+        String query = "insert into parametros(mora_por_dia,dias_prestar_alumno,dias_prestar_profesor,cantidad_prestar_alumno,cantidad_prestar_profesor)\n" +
+            "values ("+parametros.mora_por_dia+","+parametros.dias_prestar_alumno+","+parametros.dias_prestar_profesor+",\n" +
+            ""+parametros.cantidad_prestar_alumno+","+parametros.cantidad_prestar_profesor+")";
+        
+        conexion.ejecutarQuery(query);
+    }
+    
     public void editarParametros(Parametros parametros){
         
         String query = "update parametros\n" +
