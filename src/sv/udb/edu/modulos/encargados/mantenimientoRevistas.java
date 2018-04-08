@@ -251,7 +251,6 @@ public class mantenimientoRevistas extends javax.swing.JInternalFrame {
         jLabel4.setText("Categoría:");
 
         cmbCategorias.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "<sv.edu.udb.utiles.ComboItem>" }));
-        cmbCategorias.setSelectedIndex(-1);
 
         jButton1.setText("+");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
